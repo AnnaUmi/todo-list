@@ -1,0 +1,29 @@
+body {
+  background: salmon;
+}
+.container {
+  text-align: center;
+  border: 2px solid white;
+  width: 250px;
+  margin: 0 auto;
+  padding: 10px;
+}
+.form {
+  display: flex;
+  flex-direction: column;
+}
+.input {
+  margin-bottom: 10px;
+  border: none;
+  background: transparent;
+  border-bottom: 1px solid white;
+}
+.btn {
+  border: 1px solid #fff;
+  background: transparent;
+  border-radius: 10px;
+}
+.btn:hover {
+  background: slategray;
+  color: #fff;
+}
