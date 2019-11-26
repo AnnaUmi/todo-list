@@ -18,9 +18,12 @@ const tasks = [
     return acc;
   }, {});
   function renderAllTasks(taskList) {
+    const fragment = document.createDocumentFragment();
     Object.values(taskList).forEach(task => {
       const li = listItem(task);
-      console.log(li);
+      fragment.appendChild(li);
+      const list = document.querySelector(".list");
+      list.appendChild(fragment);
     });
   }
   function listItem({ id, text, title }) {
@@ -43,5 +46,16 @@ const tasks = [
     li.appendChild(button);
     return li;
   }
+  const form = document.querySelector(".form");
+  const inputTitle = document.querySelector(".inputTitle");
+  const inputBody = document.querySelector(".inputBody");
+  function onFormSubmit(event) {
+    event.preventDefault();
+    const titleValue = inputTitle.value;
+    console.log(titleValue);
+    const bodyValue = inputBody.value;
+    console.log(bodyValue);
+  }
+  form.addEventListener("submit", onFormSubmit);
   renderAllTasks(objectOfTasks);
 })(tasks);
