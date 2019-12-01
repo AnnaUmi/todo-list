@@ -55,7 +55,26 @@ const tasks = [
     console.log(titleValue);
     const bodyValue = inputBody.value;
     console.log(bodyValue);
+    if (!bodyValue || !titleValue) {
+      alert("Enter values");
+    }
+    const task = createNewTask(bodyValue, titleValue);
+    const listItems = listItem(task);
+    const list = document.querySelector(".list");
+    list.insertAdjacentElement("afterbegin", listItems);
+  }
+  function createNewTask(text, title) {
+    const newTask = {
+      title: title,
+      text: text,
+      completed: false,
+      id: "task" + Math.random()
+    };
+    objectOfTasks[newTask.id] = newTask;
+    return { ...newTask };
   }
   form.addEventListener("submit", onFormSubmit);
   renderAllTasks(objectOfTasks);
+
+  console.log("Math.random", "task" + Math.random());
 })(tasks);
