@@ -17,6 +17,7 @@ const tasks = [
     acc[task.id] = task;
     return acc;
   }, {});
+
   function renderAllTasks(taskList) {
     const fragment = document.createDocumentFragment();
     Object.values(taskList).forEach(task => {
@@ -29,6 +30,7 @@ const tasks = [
   function listItem({ id, text, title }) {
     const li = document.createElement("li");
     li.classList.add("item");
+    li.setAttribute("data-task-id", id);
     const h3 = document.createElement("h3");
     h3.classList.add("title");
     h3.textContent = title;
@@ -49,6 +51,8 @@ const tasks = [
   const form = document.querySelector(".form");
   const inputTitle = document.querySelector(".inputTitle");
   const inputBody = document.querySelector(".inputBody");
+  const list = document.querySelector(".list");
+
   function onFormSubmit(event) {
     event.preventDefault();
     const titleValue = inputTitle.value;
@@ -60,7 +64,7 @@ const tasks = [
     }
     const task = createNewTask(bodyValue, titleValue);
     const listItems = listItem(task);
-    const list = document.querySelector(".list");
+
     list.insertAdjacentElement("afterbegin", listItems);
   }
   function createNewTask(text, title) {
@@ -76,5 +80,26 @@ const tasks = [
   form.addEventListener("submit", onFormSubmit);
   renderAllTasks(objectOfTasks);
 
-  console.log("Math.random", "task" + Math.random());
+  function deleteTask(id) {
+    const isConfirm = confirm(
+      "Вы точно хотите удалить " + objectOfTasks[id].title
+    );
+    if (!isConfirm) return isConfirm;
+    delete objectOfTasks[id];
+    return isConfirm;
+  }
+
+  function onDeleteHandler(event) {
+    if (event.target.classList.contains("btn")) {
+      console.log("delete button");
+      const parent = event.target.closest("[data-task-id]");
+      console.log("parent: ", parent);
+      const id = parent.dataset.taskId;
+      const confirmed = deleteTask(id);
+      if (!confirmed) return;
+      parent.remove();
+    }
+  }
+
+  list.addEventListener("click", onDeleteHandler);
 })(tasks);
