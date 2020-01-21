@@ -18,6 +18,28 @@ const tasks = [
     return acc;
   }, {});
 
+  const themes = {
+    default: {
+      "--background": "white",
+      "--text-color": "black"
+    },
+    dark: {
+      "--background": "black",
+      "--text-color": "white"
+    }
+  };
+  const themeSelect = document.getElementById("themeSelect");
+  themeSelect.addEventListener("change", onThemeSelectHandler);
+  function onThemeSelectHandler() {
+    const selectedTheme = themeSelect.value;
+    const isConfirm = confirm("Are you sure?");
+    if (!isConfirm) return;
+    setTheme(selectedTheme);
+  }
+  function setTheme(name) {
+    console.log(name);
+  }
+
   function renderAllTasks(taskList) {
     const fragment = document.createDocumentFragment();
     Object.values(taskList).forEach(task => {
@@ -40,8 +62,11 @@ const tasks = [
     p.textContent = text;
 
     const button = document.createElement("button");
-    button.textContent = "Delete task";
+    const i = document.createElement("i");
+    i.classList.add("fas");
+    i.classList.add("fa-trash-alt");
     button.classList.add("btn");
+    button.appendChild(i);
 
     li.appendChild(h3);
     li.appendChild(p);
@@ -58,9 +83,10 @@ const tasks = [
     const titleValue = inputTitle.value;
     console.log(titleValue);
     const bodyValue = inputBody.value;
-    console.log(bodyValue);
+
     if (!bodyValue || !titleValue) {
       alert("Enter values");
+      return null;
     }
     const task = createNewTask(bodyValue, titleValue);
     const listItems = listItem(task);
@@ -91,7 +117,6 @@ const tasks = [
 
   function onDeleteHandler(event) {
     if (event.target.classList.contains("btn")) {
-      console.log("delete button");
       const parent = event.target.closest("[data-task-id]");
       console.log("parent: ", parent);
       const id = parent.dataset.taskId;
